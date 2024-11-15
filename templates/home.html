@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Chào mừng đến với Hệ thống Quản lý Sinh viên</h1>
+    <nav>
+        <a href="{{ url_for('login') }}">Đăng nhập</a> |
+        <a href="{{ url_for('register') }}">Đăng ký</a> |
+        <a href="{{ url_for('student_management') }}">Quản lý sinh viên</a> |
+        <a href="{{ url_for('major_management') }}">Quản lý chuyên ngành</a>
+    </nav>   
+</body>
+</html>

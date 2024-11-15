@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Đăng nhập</h2>
+    <form method="post">
+        <label for="username">Tên người dùng:</label>
+        <input type="text" name="username" required>
+        <br>
+        <label for="password">Mật khẩu:</label>
+        <input type="password" name="password" required>
+        <br>
+        <button type="submit">Đăng nhập</button>
+        <div class="form-links">
+            <a href="{{ url_for('register') }}">Chưa có tài khoản? Đăng ký tại đây</a><br>
+            <a href="{{ url_for('forgot_password') }}">Quên mật khẩu?</a>
+        </div>
+    </form>
+</body>
+</html>

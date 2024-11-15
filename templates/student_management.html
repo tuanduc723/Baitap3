@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sinh viên</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Quản lý Sinh viên</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="add">
+        <label for="name">Tên:</label>
+        <input type="text" name="name" required>
+        <br>
+        <label for="age">Tuổi:</label>
+        <input type="number" name="age" required>
+        <br>
+        <label for="gender">Giới tính:</label>
+        <input type="text" name="gender" required>
+        <br>
+        
+        <!-- Replace the original 'major' input with the select dropdown -->
+        <div class="form-group col-md-3">
+            <label for="major">Chuyên ngành:</label>
+            <select class="form-control" id="major" name="major" required>
+                <option value="" disabled selected>Chọn chuyên ngành</option>
+                <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+                <option value="Quan hệ công chúng">Quan hệ công chúng</option>
+                <option value="Thiết kế">Thiết kế</option>
+                <option value="Quản trị kinh doanh">Quản trị kinh doanh</option>
+                <option value="Kế toán">Kế toán</option>
+                <option value="Cơ khí - Điện tử">Cơ khí - Điện tử</option>
+            </select>
+        </div>
+        
+        <button type="submit">Thêm sinh viên</button>
+    </form>
+
+    <h3>Danh sách sinh viên</h3>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Tuổi</th>
+            <th>Giới tính</th>
+            <th>Chuyên ngành</th>
+            <th>Thao tác</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student[0] }}</td>
+            <td>{{ student[1] }}</td>
+            <td>{{ student[2] }}</td>
+            <td>{{ student[3] }}</td>
+            <td>{{ student[4] }}</td>
+            <td>
+                <form method="post" style="display:inline;">
+                    <input type="hidden" name="student_id" value="{{ student[0] }}">
+                    <input type="hidden" name="action" value="delete">
+                    <button type="submit">Xóa</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="header">
+        <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+    </div> 
+</body>
+</html>
