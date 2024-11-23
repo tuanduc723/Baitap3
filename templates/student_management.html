@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sinh viên</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center my-4">
+        <h2>Quản lý sinh viên</h2>
+        <div>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Đăng xuất</a>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="get" class="form-inline mb-4">
+        <input type="text" name="search" class="form-control mr-2" placeholder="Tìm kiếm theo tên hoặc ngành học" value="{{ search_query }}">
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </form>
+    
+    <form method="post">
+        <input type="hidden" name="student_id" id="student_id">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="name">Tên:</label>
+                <input type="text" class="form-control" name="name" id="name" required>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="age">Tuổi:</label>
+                <input type="number" class="form-control" name="age" id="age" required>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="gender">Giới tính:</label>
+                <input type="text" class="form-control" name="gender" id="gender" required>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="major">Chuyên ngành:</label>
+                    <select type="text" class="form-control" id="major" name="major" required>
+                        <option value="" disabled selected>Chọn chuyên ngành</option>
+                        <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+                        <option value="Quan hệ công chúng">Quan hệ công chúng</option>
+                        <option value="Thiết kế">Thiết kế</option>
+                        <option value="Quản trị kinh doanh">Quản trị kinh doanh</option>
+                        <option value="Kế toán">Kế toán</option>
+                        <option value="Cơ khí - Điện tử">Cơ khí - Điện tử</option>
+                    </select>
+            </div>
+            <div class="form-group col-md-2">
+                <button type="submit" name="action" value="add" class="btn btn-primary mt-4">Thêm</button>
+                <button type="submit" name="action" value="update" class="btn btn-warning mt-4" id="update_button" style="display:none;">Cập nhật</button>
+            </div>
+        </div>
+    </form>
+    
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên</th>
+                <th>Tuổi</th>
+                <th>Giới tính</th>
+                <th>Ngành học</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ student[0] }}</td>
+                    <td>{{ student[1] }}</td>
+                    <td>{{ student[2] }}</td>
+                    <td>{{ student[3] }}</td>
+                    <td>{{ student[4] }}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning btn-sm" onclick="editStudent({{ student[0] }}, '{{ student[1] }}', {{ student[2] }}, '{{ student[3] }}', '{{ student[4] }}')">Cập nhật</button>
+                        <form method="post" class="d-inline">
+                            <input type="hidden" name="student_id" value="{{ student[0] }}">
+                            <button type="submit" name="action" value="delete" class="btn btn-danger btn-sm">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+function editStudent(id, name, age, gender, major) {
+    document.getElementById('student_id').value = id;
+    document.getElementById('name').value = name;
+    document.getElementById('age').value = age;
+    document.getElementById('gender').value = gender;
+    document.getElementById('major').value = major;
+    document.getElementById('update_button').style.display = 'inline';  // Hiện nút Cập nhật
+    document.getElementsByName('action')[0].value = 'update';  // Đặt hành động là 'update'
+}
+</script>
+</body>
+</html>
